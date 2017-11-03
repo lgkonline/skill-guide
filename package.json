@@ -1,0 +1,43 @@
+{
+    "name": "skill-guide",
+    "version": "1.0.0",
+    "description": "Are you stocking when you want to create a new project? For example a React project? There are many ways to do this. Skill Guide should help you. Here you'll find guides for many scenarios.",
+    "main": "index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "compile": "webpack -p",
+        "start": "webpack -d --watch"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/lgkonline/skill-guide.git"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "MIT",
+    "dependencies": {
+        "tailwindcss": "^0.1.3",
+        "autoprefixer": "^7.1.6",
+        "babel-core": "^6.26.0",
+        "babel-loader": "^7.1.2",
+        "babel-preset-env": "^1.6.1",
+        "babel-preset-react": "^6.24.1",
+        "css-loader": "^0.28.7",
+        "cssnano": "^3.10.0",
+        "extract-text-webpack-plugin": "^3.0.2",
+        "postcss-cssnext": "^3.0.2",
+        "postcss-import": "^11.0.0",
+        "postcss-loader": "^2.0.8",
+        "prop-types": "^15.6.0",
+        "react": "^16.0.0",
+        "react-dom": "^16.0.0",
+        "react-router": "^4.2.0",
+        "react-router-dom": "^4.2.2",
+        "style-loader": "^0.19.0",
+        "webpack": "^3.8.1"
+    },
+    "bugs": {
+        "url": "https://github.com/lgkonline/skill-guide/issues"
+    },
+    "homepage": "https://github.com/lgkonline/skill-guide#readme"
+}

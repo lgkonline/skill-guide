@@ -1,0 +1,19 @@
+@tailwind preflight;
+
+@tailwind utilities;
+
+h1, h2, h3, h4, h5, h6 {
+    @apply .mb-2;
+}
+
+p {
+    @apply .mb-4;
+}
+
+.lead {
+    @apply .text-xl .font-normal;
+}
+
+.large-btn {
+    @apply .py-8 .px-8 .rounded .text-4xl .w-full .block .text-center .no-underline;
+}
