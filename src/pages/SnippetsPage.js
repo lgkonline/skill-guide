@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import Superagent from "superagent";
 import SyntaxHighlighter from "react-syntax-highlighter";
-import { github } from "react-syntax-highlighter/dist/styles";
+import { github, githubGist } from "react-syntax-highlighter/dist/styles";
 
 import Page from "../components/Page";
 import PageTitle from "../components/PageTitle";
@@ -30,33 +30,54 @@ class SnippetsPage extends React.Component {
     }
 
     getSnippets() {
-        Superagent.get("https://api.github.com/repos/lgkonline/skill-guide/git/trees/4e27ec7f7ed65f130450c0546875a74b65a78625").end((err, res) => {
-            if (err) throw err;
+        // First get the correct git url
+        Superagent.get("https://api.github.com/repos/lgkonline/skill-guide/contents/snippets").end((err0, res0) => {
+            if (err0) throw err0;
 
-            console.log(res);
+            // Use Git URL to get the sub folders of "snippets"
+            Superagent.get(res0.body[0].git_url).end((err1, res1) => {
+                if (err1) throw err1;
 
-            this.setState({ snippets: res.body.tree }, () => {
-                this.state.snippets.map(snippet => {
-                    Superagent.get(snippet.url).end((err2, res2) => {
-                        if (err2) throw err2;
+                // Set snippets to state
+                this.setState({ snippets: res1.body.tree }, () => {
+                    // Go through each snippet
+                    this.state.snippets.map(snippet => {
+                        // Receive the files of each snippet folder
+                        Superagent.get(snippet.url).end((err2, res2) => {
+                            if (err2) throw err2;
 
-                        res2.body.tree.map(file => {
-                            Superagent.get(file.url).end((err3, res3) => {
-                                if (err3) throw err3;
+                            // Go through each file and receive its content as blob
+                            res2.body.tree.map(file => {
+                                Superagent.get(file.url).end((err3, res3) => {
+                                    if (err3) throw err3;
 
-                                file.blob = res3.body;
+                                    file.blob = res3.body;
 
-                                this.setState({ snippets: this.state.snippets });
+                                    this.setState({ snippets: this.state.snippets });
+                                });
                             });
+
+                            snippet.tree = res2.body.tree;
+
+                            this.setState({ snippets: this.state.snippets });
                         });
-
-                        snippet.tree = res2.body.tree;
-
-                        this.setState({ snippets: this.state.snippets });
                     });
                 });
             });
         });
+    }
+
+    selectText(areaId) {
+        if (document.selection) {
+            var range = document.body.createTextRange();
+            range.moveToElementText(document.getElementById(areaId));
+            range.select();
+        } else if (window.getSelection) {
+            var range = document.createRange();
+            range.selectNode(document.getElementById(areaId));
+            window.getSelection().removeAllRanges();
+            window.getSelection().addRange(range);
+        }
     }
 
     render() {
@@ -64,26 +85,39 @@ class SnippetsPage extends React.Component {
             <Page>
                 <PageTitle>Snippets</PageTitle>
 
+                <p className="lead">
+                    Hint: Double click on a source code to select it all.
+                </p>
+
                 {this.state.snippets &&
-                    <Row>
-                        {this.state.snippets.map((snippet, i) =>
-                            <Col key={i}>
-                                <h1>
-                                    {snippet.path}
-                                </h1>
+                    this.state.snippets.map((snippet, i) =>
+                        <div key={i} className="bg-teal-lighter rounded p-4 mb-4">
+                            <h1 className="font-medium pb-2">
+                                {snippet.path}
+                            </h1>
 
-                                {snippet.tree && snippet.tree.map((file, j) =>
-                                    <div key={j}>
-                                        <strong>{file.path}</strong>
+                            {snippet.tree && snippet.tree.map((file, j) =>
+                                <div key={j} className="bg-grey-light p-1 rounded">
+                                    <h4 className="text-center">{file.path}</h4>
 
-                                        {file.blob &&
-                                            <SyntaxHighlighter language="javascript" style={github}>{atob(file.blob.content)}</SyntaxHighlighter>
-                                        }
-                                    </div>
-                                )}
-                            </Col>
-                        )}
-                    </Row>
+                                    {file.blob &&
+                                        <SyntaxHighlighter
+                                            id={"syntax-" + i + "-" + j}
+                                            onDoubleClick={() => {
+                                                this.selectText("syntax-" + i + "-" + j);
+                                            }}
+
+                                            // language based on the file extension
+                                            language={file.path.split(".")[file.path.split(".") - 1]}
+                                            style={githubGist}
+                                        >
+                                            {atob(file.blob.content)}
+                                        </SyntaxHighlighter>
+                                    }
+                                </div>
+                            )}
+                        </div>
+                    )
                 }
             </Page>
         );

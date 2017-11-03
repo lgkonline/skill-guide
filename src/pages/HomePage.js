@@ -16,7 +16,7 @@ class Homepage extends React.Component {
 
                 <Row>
                     <Col>
-                        <button type="button" className="large-btn bg-orange hover:bg-orange-light text-orange-darker">
+                        <button type="button" disabled className="large-btn bg-orange hover:bg-orange-light text-orange-darker">
                             <span className="icon-arrow-right2" /><br />Guides
                         </button>
                     </Col>

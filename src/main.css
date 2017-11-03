@@ -17,3 +17,7 @@ p {
 .large-btn {
     @apply .py-8 .px-8 .rounded .text-4xl .w-full .block .text-center .no-underline;
 }
+.large-btn[disabled] {
+    opacity: .2;
+    cursor: default;
+}
