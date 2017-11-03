@@ -10,6 +10,10 @@ p {
     @apply .mb-4;
 }
 
+a {
+    @apply .text-blue;
+}
+
 .lead {
     @apply .text-xl .font-normal;
 }

@@ -89,6 +89,16 @@ class SnippetsPage extends React.Component {
                     Hint: Double click on a source code to select it all.
                 </p>
 
+                <p>
+                    You want to add snippets? Clone this repository from GitHub: <a href="https://github.com/lgkonline/skill-guide">https://github.com/lgkonline/skill-guide</a><br />
+                    Then add your code into the snippets folder and make a pull request.<br />
+                    Thank you very much! 😁
+                </p>
+
+                <p>
+                    If you need any help you can <a href="https://github.com/lgkonline/skill-guide/issues">report an issue</a> or just message me directly on Twitter: <a href="https://twitter.com/lgkonline">@lgkonline</a>.
+                </p>
+
                 {this.state.snippets &&
                     this.state.snippets.map((snippet, i) =>
                         <div key={i} className="bg-teal-lighter rounded p-4 mb-4">
