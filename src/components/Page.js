@@ -56,7 +56,7 @@ class Page extends React.Component {
                         </ul>
                     </div>
                 </nav>
-                <div className="page-content container">
+                <div className="fade-in container">
                     <h1 className="display-1 my-4">{this.props.title}</h1>
 
                     {this.props.children}

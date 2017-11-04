@@ -37,11 +37,11 @@ $font-family-sans-serif: "HK Grotesk", -apple-system, BlinkMacSystemFont, "Segoe
     }
 }
 
-.page-content {
-    animation: page-content .4s;
+.fade-in {
+    animation: fade-in .4s;
 }
 
-@keyframes page-content {
+@keyframes fade-in {
     from {
         opacity: 0;
     }

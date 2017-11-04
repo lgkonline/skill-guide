@@ -46,7 +46,7 @@ class GuidesPage extends React.Component {
                 {this.state.guides ?
                     <div className="list-group">
                         {this.state.guides.map((guide, i) =>
-                            <Link key={i} to={"/guide/" + encodeURIComponent(guide.name)} className="list-group-item list-group-item-action">
+                            <Link key={i} to={"/guide/" + encodeURIComponent(guide.name)} className="fade-in list-group-item list-group-item-action">
                                 <h5>{guide.name}</h5>
                                 <p>{guide.config ? guide.config.description : "..."}</p>
                             </Link>

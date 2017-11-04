@@ -64,10 +64,10 @@ class GuidePage extends React.Component {
                     </p>
                     :
                     this.state.guide ?
-                        <div>
+                        <div className="fade-in">
                             {this.state.guide.map((step, i) =>
                                 step.readMe &&
-                                <div key={i} className="card mb-3">
+                                <div key={i} className="fade-in card mb-3">
                                     <div className="card-body">
                                         <ReactMarkdown source={step.readMe} />
                                     </div>

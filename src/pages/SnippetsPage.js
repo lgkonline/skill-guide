@@ -94,7 +94,7 @@ class SnippetsPage extends React.Component {
 
                             {genre.tree ?
                                 genre.tree.map((snippet, i) =>
-                                    <div key={i} className="card bg-snippets text-white mb-3">
+                                    <div key={i} className="fade-in card bg-snippets text-white mb-3">
                                         <div className="card-body">
                                             <h2 className="pb-2">
                                                 {snippet.path}
@@ -102,7 +102,7 @@ class SnippetsPage extends React.Component {
 
                                             {snippet.tree ?
                                                 snippet.tree.map((file, j) =>
-                                                    <div key={j} className="card text-dark">
+                                                    <div key={j} className="fade-in card text-dark">
                                                         <div className="card-body">
                                                             <h3 className="text-center">{file.path}</h3>
 
