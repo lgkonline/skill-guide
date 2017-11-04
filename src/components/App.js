@@ -1,13 +1,18 @@
 import React from "react";
-import { HashRouter as Router, Route, Link } from "react-router-dom";
+import { Router, Route, Link } from "react-router-dom";
+import createHistory from "history/createHashHistory";
 
+
+import global from "../global";
 import HomePage from "../pages/HomePage";
 import SnippetsPage from "../pages/SnippetsPage";
+
+global.history = createHistory();
 
 class App extends React.Component {
     render() {
         return (
-            <Router>
+            <Router history={global.history}>
                 <div>
                     <Route exact path="/" component={HomePage} />
                     <Route path="/snippets" component={SnippetsPage} />
