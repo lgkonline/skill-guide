@@ -5,7 +5,6 @@ import Superagent from "superagent";
 
 import global from "../global";
 import Page from "../components/Page";
-import PageTitle from "../components/PageTitle";
 import Busy from "../components/Busy";
 
 class GuidesPage extends React.Component {
@@ -43,9 +42,7 @@ class GuidesPage extends React.Component {
 
     render() {
         return (
-            <Page area="Guides">
-                <PageTitle>Guides</PageTitle>
-
+            <Page area="Guides" title="Guides">
                 {this.state.guides ?
                     <div className="list-group">
                         {this.state.guides.map((guide, i) =>

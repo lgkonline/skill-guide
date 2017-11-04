@@ -6,7 +6,6 @@ import SyntaxHighlighter from "react-syntax-highlighter";
 import { github, githubGist } from "react-syntax-highlighter/dist/styles";
 
 import Page from "../components/Page";
-import PageTitle from "../components/PageTitle";
 import Busy from "../components/Busy";
 
 class SnippetsPage extends React.Component {
@@ -73,9 +72,7 @@ class SnippetsPage extends React.Component {
 
     render() {
         return (
-            <Page area="Snippets">
-                <PageTitle>Snippets</PageTitle>
-
+            <Page area="Snippets" title="Snippets">
                 <p className="lead">
                     Hint: Double click on a source code to select it all.
                 </p>

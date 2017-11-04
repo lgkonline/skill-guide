@@ -5,7 +5,16 @@ import PropTypes from "prop-types";
 class Page extends React.Component {
     static get defaultProps() {
         return {
+            title: ""
         };
+    }
+
+    componentWillMount() {
+        document.title = "Skill Guide";
+
+        if (this.props.area) {
+            document.title += " - " + this.props.area;
+        }
     }
 
     render() {
@@ -21,41 +30,53 @@ class Page extends React.Component {
         ];
 
         return [
-            <div key={0} className="bg-primary py-5">
-                <div className="container">
-                    <h1 className="display-5 text-center text-uppercase">
-                        <Link to="/" className="logo text-white">
-                            Skill Guide<br /><span className="icon-lgk-filled" />
-                        </Link>
-                    </h1>
+            <main key={0} style={{ flex: "1" }}>
+                <div className="bg-primary py-5">
+                    <div className="container">
+                        <h1 className="display-5 text-center text-uppercase">
+                            <Link to="/" className="logo text-white">
+                                Skill Guide<br /><span className="icon-lgk-filled" />
+                            </Link>
+                        </h1>
+                    </div>
                 </div>
-            </div>,
-            <nav key={1} className="bg-light">
-                <div className="container">
-                    <ul className="nav nav-pivots nav-fill">
-                        {areas.map(area =>
-                            <li key={area.path} className="nav-item">
-                                <Link
-                                    to={area.path}
-                                    className={"nav-link " + (this.props.area && this.props.area == area.name ? "active" : "")}
-                                >
-                                    {area.name}
-                                </Link>
-                            </li>
-                        )}
-                    </ul>
+                <nav className="bg-light">
+                    <div className="container">
+                        <ul className="nav nav-pivots nav-fill">
+                            {areas.map(area =>
+                                <li key={area.path} className="nav-item">
+                                    <Link
+                                        to={area.path}
+                                        className={"nav-link " + (this.props.area && this.props.area == area.name ? "active" : "")}
+                                    >
+                                        {area.name}
+                                    </Link>
+                                </li>
+                            )}
+                        </ul>
+                    </div>
+                </nav>
+                <div className="page-content container">
+                    <h1 className="display-1 my-4">{this.props.title}</h1>
+
+                    {this.props.children}
                 </div>
-            </nav>,
-            <div key={2} className="container">
-                {this.props.children}
-            </div>
+            </main>,
+            <footer key={1} className="py-3">
+                <div className="container">
+                    Made with <span className="icon-heart" /> in Germany by LGK.
+                    Checkout my <a href="http://lgk.io">website</a> or follow me on <a href="https://twitter.com/lgkonline">Twitter</a>.<br />
+                    The code is <a href="https://github.com/lgkonline/skill-guide/blob/master/LICENSE">MIT licensed</a>.
+                </div>
+            </footer>
         ];
     }
 }
 
 Page.propTypes = {
     children: PropTypes.any,
-    area: PropTypes.string
+    area: PropTypes.string,
+    title: PropTypes.string
 };
 
 export default Page;

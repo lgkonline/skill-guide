@@ -2,13 +2,11 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 import Page from "../components/Page";
-import PageTitle from "../components/PageTitle";
 
 class Homepage extends React.Component {
     render() {
         return (
-            <Page>
-                <PageTitle>What is Skill Guide?</PageTitle>
+            <Page title="What is Skill Guide?">
                 <p className="lead">Are you stocking when you want to create a new project? For example a React project? There are many ways to do this.<br />
                     Skill Guide should help you. Here you'll find guides for many scenarios.</p>
 

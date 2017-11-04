@@ -36,3 +36,13 @@ $font-family-sans-serif: "HK Grotesk", -apple-system, BlinkMacSystemFont, "Segoe
         transform: rotate(359deg);
     }
 }
+
+.page-content {
+    animation: page-content .4s;
+}
+
+@keyframes page-content {
+    from {
+        opacity: 0;
+    }
+}

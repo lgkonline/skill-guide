@@ -6,7 +6,6 @@ import ReactMarkdown from "react-markdown";
 
 import global from "../global";
 import Page from "../components/Page";
-import PageTitle from "../components/PageTitle";
 import Busy from "../components/Busy";
 
 class GuidePage extends React.Component {
@@ -58,9 +57,7 @@ class GuidePage extends React.Component {
 
     render() {
         return (
-            <Page area="Guides">
-                <PageTitle>{this.state.error ? this.state.error.message : this.state.name}</PageTitle>
-
+            <Page area="Guides" title={this.state.error ? this.state.error.message : this.state.name}>
                 {this.state.error ?
                     <p>
                         <a href={this.state.error.documentation_url}>{this.state.error.documentation_url}</a>
