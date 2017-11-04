@@ -1,8 +1,9 @@
 import React from "react";
 import ReactDOM from "react-dom";
+
 import App from "./components/App";
 
-require("./main.css");
+require("./main.scss");
 
 document.addEventListener("DOMContentLoaded", function () {
     ReactDOM.render(

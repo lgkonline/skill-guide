@@ -7,8 +7,7 @@ import { github, githubGist } from "react-syntax-highlighter/dist/styles";
 
 import Page from "../components/Page";
 import PageTitle from "../components/PageTitle";
-import Row from "../components/Row";
-import Col from "../components/Col";
+import Busy from "../components/Busy";
 
 class SnippetsPage extends React.Component {
     constructor() {
@@ -91,40 +90,58 @@ class SnippetsPage extends React.Component {
                     If you need any help you can <a href="https://github.com/lgkonline/skill-guide/issues">report an issue</a> or just message me directly on Twitter: <a href="https://twitter.com/lgkonline">@lgkonline</a>.
                 </p>
 
-                {this.state.data && this.state.data.map((genre, h) =>
-                    <div key={h}>
-                        <h2>{genre.name}</h2>
+                {this.state.data ?
+                    this.state.data.map((genre, h) =>
+                        <div key={h} className="py-2">
+                            <h1 className="display-3">{genre.name}</h1>
 
-                        {genre.tree && genre.tree.map((snippet, i) =>
-                            <div key={i} className="bg-teal-lighter rounded p-4 mb-4">
-                                <h1 className="font-medium pb-2">
-                                    {snippet.path}
-                                </h1>
+                            {genre.tree ?
+                                genre.tree.map((snippet, i) =>
+                                    <div key={i} className="card bg-snippets text-white mb-3">
+                                        <div className="card-body">
+                                            <h2 className="pb-2">
+                                                {snippet.path}
+                                            </h2>
 
-                                {snippet.tree && snippet.tree.map((file, j) =>
-                                    <div key={j} className="bg-grey-light p-1 rounded">
-                                        <h4 className="text-center">{file.path}</h4>
+                                            {snippet.tree ?
+                                                snippet.tree.map((file, j) =>
+                                                    <div key={j} className="card text-dark">
+                                                        <div className="card-body">
+                                                            <h3 className="text-center">{file.path}</h3>
 
-                                        {file.blob &&
-                                            <SyntaxHighlighter
-                                                id={"syntax-" + i + "-" + j}
-                                                onDoubleClick={() => {
-                                                    this.selectText("syntax-" + i + "-" + j);
-                                                }}
+                                                            {file.blob ?
+                                                                <SyntaxHighlighter
+                                                                    id={"syntax-" + h + "-" + i + "-" + j}
+                                                                    onDoubleClick={() => {
+                                                                        this.selectText("syntax-" + h + "-" + i + "-" + j);
+                                                                    }}
 
-                                                // language based on the file extension
-                                                language={file.path.split(".")[file.path.split(".") - 1]}
-                                                style={githubGist}
-                                            >
-                                                {atob(file.blob.content)}
-                                            </SyntaxHighlighter>
-                                        }
+                                                                    // language based on the file extension
+                                                                    language={file.path.split(".")[file.path.split(".") - 1]}
+                                                                    style={githubGist}
+                                                                >
+                                                                    {atob(file.blob.content)}
+                                                                </SyntaxHighlighter>
+                                                                :
+                                                                <Busy />
+                                                            }
+                                                        </div>
+                                                    </div>
+                                                )
+                                                :
+                                                <Busy />
+                                            }
+                                        </div>
                                     </div>
-                                )}
-                            </div>
-                        )}
-                    </div>
-                )}
+                                )
+                                :
+                                <Busy />
+                            }
+                        </div>
+                    )
+                    :
+                    <Busy />
+                }
             </Page>
         );
     }

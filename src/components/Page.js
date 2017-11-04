@@ -10,13 +10,16 @@ class Page extends React.Component {
 
     render() {
         return (
-            <div className="container mx-auto px-8 font-sans font-normal">
-                <Link
-                    to="/"
-                    className="font-sans font-bold text-center uppercase text-3xl my-8 text-grey block no-underline"
-                >
-                    Skill Guide<br /><span className="icon-lgk-filled" />
-                </Link>
+            <div className="container">
+                <header className="text-center py-4">
+                    <Link
+                        to="/"
+                        className="h1 text-uppercase"
+                    >
+                        Skill Guide<br /><span className="icon-lgk-filled" />
+                    </Link>
+                </header>
+
                 {this.props.children}
             </div>
         );

@@ -26,10 +26,13 @@ module.exports = {
                     use: [
                         {
                             loader: "css-loader", options: { importLoaders: 1 }
-                        },
-                        "postcss-loader"
+                        }
                     ]
                 })
+            },
+            {
+                test: /\.(sass|scss)$/,
+                loader: ExtractTextPlugin.extract(["css-loader", "sass-loader"])
             }
         ]
     },
