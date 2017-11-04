@@ -33,6 +33,10 @@ module.exports = {
             {
                 test: /\.(sass|scss)$/,
                 loader: ExtractTextPlugin.extract(["css-loader", "sass-loader"])
+            },
+            {
+                test: /\.(eot|svg|ttf|woff|woff2)$/,
+                loader: "file-loader?name=contents/[name].[ext]"
             }
         ]
     },

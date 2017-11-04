@@ -9,20 +9,20 @@ class Page extends React.Component {
     }
 
     render() {
-        return (
-            <div className="container">
-                <header className="text-center py-4">
-                    <Link
-                        to="/"
-                        className="h1 text-uppercase"
-                    >
-                        Skill Guide<br /><span className="icon-lgk-filled" />
-                    </Link>
-                </header>
-
+        return [
+            <div key={0} className="jumbotron jumbotron-fluid bg-primary">
+                <div className="container">
+                    <h1 className="display-5 text-center text-uppercase">
+                        <Link to="/" className="logo text-white">
+                            Skill Guide<br /><span className="icon-lgk-filled" />
+                        </Link>
+                    </h1>
+                </div>
+            </div>,
+            <div key={1} className="container">
                 {this.props.children}
             </div>
-        );
+        ];
     }
 }
 

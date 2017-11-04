@@ -12,15 +12,15 @@ class Homepage extends React.Component {
                 <p className="lead">Are you stocking when you want to create a new project? For example a React project? There are many ways to do this.<br />
                     Skill Guide should help you. Here you'll find guides for many scenarios.</p>
 
-                <div className="row">
+                <div className="row mt-4">
                     <div className="col">
-                        <button type="button" disabled className="btn btn-guides btn-block btn-lg">
+                        <button type="button" disabled className="btn btn-guides btn-block btn-lg py-4">
                             <span className="icon-arrow-right2" /><br />Guides
                         </button>
                     </div>
 
                     <div className="col">
-                        <Link to="/snippets" className="btn btn-snippets btn-block btn-lg">
+                        <Link to="/snippets" className="btn btn-snippets btn-block btn-lg py-4">
                             <span className="icon-code" /><br />Snippets
                         </Link>
                     </div>
