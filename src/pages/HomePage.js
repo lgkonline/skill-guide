@@ -14,9 +14,9 @@ class Homepage extends React.Component {
 
                 <div className="row mt-4">
                     <div className="col">
-                        <button type="button" disabled className="btn btn-guides btn-block btn-lg py-4">
+                        <Link to="/guides" className="btn btn-guides btn-block btn-lg py-4">
                             <span className="icon-arrow-right2" /><br />Guides
-                        </button>
+                        </Link>
                     </div>
 
                     <div className="col">

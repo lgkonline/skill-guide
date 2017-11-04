@@ -3,12 +3,8 @@ import React from "react";
 class Busy extends React.Component {
     render() {
         return (
-            <div className="progress my-3">
-                <div
-                    className="progress-bar progress-bar-striped progress-bar-animated"
-                    role="progressbar"
-                    style={{ width: "100%" }}
-                />
+            <div className="text-center text-primary h1 py-3">
+                <span className="icon-spinner10 animation-spin" />
             </div>
         );
     }

@@ -2,7 +2,7 @@
 
 $theme-colors: (
     "snippets": #20c997,
-    "guides": #fd7e14,
+    "guides": #17a2b8,
     "primary": #3F51B5
 );
 
@@ -13,5 +13,26 @@ $font-family-sans-serif: "HK Grotesk", -apple-system, BlinkMacSystemFont, "Segoe
 .logo {
     &, &:hover, &:focus {
         text-decoration: none;
+    }
+}
+
+.nav-pivots {
+    .nav-link.active, 
+    .show > .nav-link {
+        border-bottom: 2px solid;
+    }
+}
+
+.animation-spin {
+    display: inline-block;
+    animation: spinAnimation 1s infinite linear;
+}
+
+@keyframes spinAnimation {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(359deg);
     }
 }

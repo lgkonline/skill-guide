@@ -73,7 +73,7 @@ class SnippetsPage extends React.Component {
 
     render() {
         return (
-            <Page>
+            <Page area="Snippets">
                 <PageTitle>Snippets</PageTitle>
 
                 <p className="lead">
