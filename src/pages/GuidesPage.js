@@ -51,6 +51,11 @@ class GuidesPage extends React.Component {
                                 <p>{guide.config ? guide.config.description : "..."}</p>
                             </Link>
                         )}
+
+                        <Link to="/new-guide" className="list-group-item list-group-item-action">
+                            <h5>React project</h5>
+                            <p>A Skill Guide to create an empty React project.</p>
+                        </Link>
                     </div>
                     :
                     <Busy />

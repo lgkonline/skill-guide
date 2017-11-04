@@ -6,6 +6,7 @@ import global from "../global";
 import HomePage from "../pages/HomePage";
 import GuidesPage from "../pages/GuidesPage";
 import GuidePage from "../pages/GuidePage";
+import NewGuidePage from "../pages/NewGuidePage";
 import SnippetsPage from "../pages/SnippetsPage";
 
 global.history = createHistory();
@@ -18,6 +19,7 @@ class App extends React.Component {
                     <Route exact path="/" component={HomePage} />
                     <Route path="/guides" component={GuidesPage} />
                     <Route path="/guide/:name" component={GuidePage} />
+                    <Route path="/new-guide" component={NewGuidePage} />
                     <Route path="/snippets" component={SnippetsPage} />
                 </div>
             </Router>
