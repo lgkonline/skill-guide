@@ -11,17 +11,11 @@ import Row from "../components/Row";
 import Col from "../components/Col";
 
 class SnippetsPage extends React.Component {
-    static get defaultProps() {
-        return {
-            firstProp: "Hello World"
-        };
-    }
-
     constructor() {
         super();
 
         this.state = {
-            snippets: null
+            data: null
         };
     }
 
@@ -34,32 +28,30 @@ class SnippetsPage extends React.Component {
         Superagent.get("https://api.github.com/repos/lgkonline/skill-guide/contents/snippets").end((err0, res0) => {
             if (err0) throw err0;
 
-            // Use Git URL to get the sub folders of "snippets"
-            Superagent.get(res0.body[0].git_url).end((err1, res1) => {
-                if (err1) throw err1;
+            // Set state
+            this.setState({ data: res0.body }, () => {
+                this.state.data.map(genre => {
+                    Superagent.get(genre.git_url).end((err1, res1) => {
+                        if (err1) throw err1;
 
-                // Set snippets to state
-                this.setState({ snippets: res1.body.tree }, () => {
-                    // Go through each snippet
-                    this.state.snippets.map(snippet => {
-                        // Receive the files of each snippet folder
-                        Superagent.get(snippet.url).end((err2, res2) => {
-                            if (err2) throw err2;
+                        genre.tree = res1.body.tree;
 
-                            // Go through each file and receive its content as blob
-                            res2.body.tree.map(file => {
-                                Superagent.get(file.url).end((err3, res3) => {
-                                    if (err3) throw err3;
+                        genre.tree.map(snippet => {
+                            Superagent.get(snippet.url).end((err2, res2) => {
+                                if (err2) throw err2;
 
-                                    file.blob = res3.body;
+                                snippet.tree = res2.body.tree;
 
-                                    this.setState({ snippets: this.state.snippets });
+                                snippet.tree.map(file => {
+                                    Superagent.get(file.url).end((err3, res3) => {
+                                        if (err3) throw err3;
+
+                                        file.blob = res3.body;
+
+                                        this.setState({ data: this.state.data });
+                                    });
                                 });
                             });
-
-                            snippet.tree = res2.body.tree;
-
-                            this.setState({ snippets: this.state.snippets });
                         });
                     });
                 });
@@ -99,43 +91,43 @@ class SnippetsPage extends React.Component {
                     If you need any help you can <a href="https://github.com/lgkonline/skill-guide/issues">report an issue</a> or just message me directly on Twitter: <a href="https://twitter.com/lgkonline">@lgkonline</a>.
                 </p>
 
-                {this.state.snippets &&
-                    this.state.snippets.map((snippet, i) =>
-                        <div key={i} className="bg-teal-lighter rounded p-4 mb-4">
-                            <h1 className="font-medium pb-2">
-                                {snippet.path}
-                            </h1>
+                {this.state.data && this.state.data.map((genre, h) =>
+                    <div key={h}>
+                        <h2>{genre.name}</h2>
 
-                            {snippet.tree && snippet.tree.map((file, j) =>
-                                <div key={j} className="bg-grey-light p-1 rounded">
-                                    <h4 className="text-center">{file.path}</h4>
+                        {genre.tree && genre.tree.map((snippet, i) =>
+                            <div key={i} className="bg-teal-lighter rounded p-4 mb-4">
+                                <h1 className="font-medium pb-2">
+                                    {snippet.path}
+                                </h1>
 
-                                    {file.blob &&
-                                        <SyntaxHighlighter
-                                            id={"syntax-" + i + "-" + j}
-                                            onDoubleClick={() => {
-                                                this.selectText("syntax-" + i + "-" + j);
-                                            }}
+                                {snippet.tree && snippet.tree.map((file, j) =>
+                                    <div key={j} className="bg-grey-light p-1 rounded">
+                                        <h4 className="text-center">{file.path}</h4>
 
-                                            // language based on the file extension
-                                            language={file.path.split(".")[file.path.split(".") - 1]}
-                                            style={githubGist}
-                                        >
-                                            {atob(file.blob.content)}
-                                        </SyntaxHighlighter>
-                                    }
-                                </div>
-                            )}
-                        </div>
-                    )
-                }
+                                        {file.blob &&
+                                            <SyntaxHighlighter
+                                                id={"syntax-" + i + "-" + j}
+                                                onDoubleClick={() => {
+                                                    this.selectText("syntax-" + i + "-" + j);
+                                                }}
+
+                                                // language based on the file extension
+                                                language={file.path.split(".")[file.path.split(".") - 1]}
+                                                style={githubGist}
+                                            >
+                                                {atob(file.blob.content)}
+                                            </SyntaxHighlighter>
+                                        }
+                                    </div>
+                                )}
+                            </div>
+                        )}
+                    </div>
+                )}
             </Page>
         );
     }
 }
-
-SnippetsPage.propTypes = {
-    firstProp: PropTypes.string
-};
 
 export default SnippetsPage;
