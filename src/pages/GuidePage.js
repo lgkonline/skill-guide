@@ -2,80 +2,75 @@ import React from "react";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import Superagent from "superagent";
-import ReactMarkdown from "react-markdown";
 
-import global from "../global";
 import Page from "../components/Page";
 import Busy from "../components/Busy";
+import GuideStep from "../components/GuideStep";
 
 class GuidePage extends React.Component {
     constructor() {
         super();
 
         this.state = {
-            name: "...",
-            guide: null,
-            error: null
+            steps: null
         };
     }
 
     componentDidMount() {
-        this.setState({ name: this.props.match.params.name }, this.getGuide);
+        this.getStep(0);
     }
 
-    componentDidUpdate(prevProps) {
-        if (prevProps.match.params.name != this.props.match.params.name) {
-            this.componentDidMount();
-        }
-    }
-
-    getGuide() {
-        Superagent.get(api("https://api.github.com/repos/lgkonline/skill-guide/contents/guides/" + this.state.name)).end((err0, res0) => {
-            if (err0) {
-                this.setState({ error: res0.body });
-
-                throw err0;
+    getStep(stepNum) {
+        Superagent.get(api("https://api.github.com/repos/lgkonline/react-guide/git/trees/" + stepNum)).end((err, res) => {
+            if (err && res.statusCode == "404") {
+                throw err;
+            }
+            else {
+                handleError(err, res);
             }
 
-            this.setState({ guide: res0.body }, () => {
-                this.state.guide.map(step => {
-                    Superagent.get(api(step.git_url)).end((err1, res1) => {
-                        res1.body.tree && res1.body.tree.map(file => {
-                            if (file.path == "README.md") {
-                                Superagent.get(api(file.url)).end((err2, res2) => {
-                                    step.readMe = atob(res2.body.content);
+            console.log(res.body);
 
-                                    this.setState({ guide: this.state.guide });
-                                });
-                            }
-                        });
+            let step = {
+                files: []
+            };
+
+            res.body.tree.map(node => {
+                if (node.path == "README.md") {
+                    Superagent.get(api(node.url)).end((err2, res2) => {
+                        step.readMe = atob(res2.body.content);
+
+                        this.setState({ steps: this.state.steps });
                     });
-                });
+                }
+                else {
+                    step.files.push(node);
+                }
             });
+
+            if (!this.state.steps) this.state.steps = [];
+            this.state.steps.push(step);
+
+            this.setState({ steps: this.state.steps });
+
+            this.getStep(stepNum + 1);
         });
     }
 
     render() {
         return (
-            <Page area="Guides" title={this.state.error ? this.state.error.message : this.state.name}>
-                {this.state.error ?
-                    <p>
-                        <a href={this.state.error.documentation_url}>{this.state.error.documentation_url}</a>
-                    </p>
+            <Page area="Guides" title="React project" containerClass="container-fluid">
+                {this.state.steps ?
+                    <div className="fade-in">
+                        {this.state.steps.map((step, i) =>
+                            step.readMe ?
+                                <GuideStep key={i} step={step} />
+                                :
+                                <Busy key={i} />
+                        )}
+                    </div>
                     :
-                    this.state.guide ?
-                        <div className="fade-in">
-                            {this.state.guide.map((step, i) =>
-                                step.readMe &&
-                                <div key={i} className="fade-in card mb-3">
-                                    <div className="card-body">
-                                        <ReactMarkdown source={step.readMe} />
-                                    </div>
-                                </div>
-                            )}
-                        </div>
-                        :
-                        <Busy />
+                    <Busy />
                 }
             </Page>
         );

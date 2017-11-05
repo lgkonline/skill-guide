@@ -33,12 +33,13 @@ class Page extends React.Component {
         return [
             <main key={0} style={{ flex: "1" }}>
                 <div className="bg-primary py-5">
-                    <div className="container">
-                        <h1 className="display-5 text-center text-uppercase">
+                    <div className="container text-center">
+                        <h1 className="display-5 text-uppercase">
                             <Link to="/" className="logo text-white">
                                 Skill Guide<br /><span className="icon-lgk-filled" />
                             </Link>
                         </h1>
+                        <div className="badge badge-secondary">Currently still in development</div>
                     </div>
                 </div>
                 <nav className="bg-light">
@@ -57,9 +58,10 @@ class Page extends React.Component {
                         </ul>
                     </div>
                 </nav>
-                <div className={"fade-in " + this.props.containerClass}>
+                <div className="fade-in container">
                     <h1 className="display-1 my-4">{this.props.title}</h1>
-
+                </div>
+                <div className={"fade-in " + this.props.containerClass}>
                     {this.props.children}
                 </div>
             </main>,

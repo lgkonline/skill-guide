@@ -87,58 +87,60 @@ class SnippetsPage extends React.Component {
                     If you need any help you can <a href="https://github.com/lgkonline/skill-guide/issues">report an issue</a> or just message me directly on Twitter: <a href="https://twitter.com/lgkonline">@lgkonline</a>.
                 </p>
 
-                {this.state.data ?
-                    this.state.data.map((genre, h) =>
-                        <div key={h} className="py-2">
-                            <h1 className="display-3 mb-2">{genre.name}</h1>
+                <div className="row">
+                    {this.state.data ?
+                        this.state.data.map((genre, h) =>
+                            <div key={h} className="col-md-6 py-2">
+                                <h1 className="display-3 mb-2">{genre.name}</h1>
 
-                            {genre.tree ?
-                                genre.tree.map((snippet, i) =>
-                                    <div key={i} className="fade-in card bg-snippets text-white mb-3">
-                                        <div className="card-body">
-                                            <h2 className="pb-2">
-                                                {snippet.path}
-                                            </h2>
+                                {genre.tree ?
+                                    genre.tree.map((snippet, i) =>
+                                        <div key={i} className="fade-in card bg-snippets text-white mb-3">
+                                            <div className="card-body">
+                                                <h2 className="pb-2">
+                                                    {snippet.path}
+                                                </h2>
 
-                                            {snippet.tree ?
-                                                snippet.tree.map((file, j) =>
-                                                    <div key={j} className="fade-in card text-dark">
-                                                        <div className="card-body">
-                                                            <h3 className="text-center">{file.path}</h3>
+                                                {snippet.tree ?
+                                                    snippet.tree.map((file, j) =>
+                                                        <div key={j} className="fade-in card text-dark">
+                                                            <div className="card-body">
+                                                                <h3 className="text-center">{file.path}</h3>
 
-                                                            {file.blob ?
-                                                                <SyntaxHighlighter
-                                                                    id={"syntax-" + h + "-" + i + "-" + j}
-                                                                    onDoubleClick={() => {
-                                                                        this.selectText("syntax-" + h + "-" + i + "-" + j);
-                                                                    }}
+                                                                {file.blob ?
+                                                                    <SyntaxHighlighter
+                                                                        id={"syntax-" + h + "-" + i + "-" + j}
+                                                                        onDoubleClick={() => {
+                                                                            this.selectText("syntax-" + h + "-" + i + "-" + j);
+                                                                        }}
 
-                                                                    // language based on the file extension
-                                                                    language={file.path.split(".")[file.path.split(".") - 1]}
-                                                                    style={githubGist}
-                                                                >
-                                                                    {atob(file.blob.content)}
-                                                                </SyntaxHighlighter>
-                                                                :
-                                                                <Busy />
-                                                            }
+                                                                        // language based on the file extension
+                                                                        language={file.path.split(".")[file.path.split(".") - 1]}
+                                                                        style={githubGist}
+                                                                    >
+                                                                        {atob(file.blob.content)}
+                                                                    </SyntaxHighlighter>
+                                                                    :
+                                                                    <Busy />
+                                                                }
+                                                            </div>
                                                         </div>
-                                                    </div>
-                                                )
-                                                :
-                                                <Busy />
-                                            }
+                                                    )
+                                                    :
+                                                    <Busy />
+                                                }
+                                            </div>
                                         </div>
-                                    </div>
-                                )
-                                :
-                                <Busy />
-                            }
-                        </div>
-                    )
-                    :
-                    <Busy />
-                }
+                                    )
+                                    :
+                                    <Busy />
+                                }
+                            </div>
+                        )
+                        :
+                        <Busy />
+                    }
+                </div>
             </Page>
         );
     }
