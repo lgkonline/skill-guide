@@ -2,6 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import Superagent from "superagent";
+import ReactMarkdown from "react-markdown";
 
 import Page from "../components/Page";
 import Busy from "../components/Busy";
@@ -12,16 +13,49 @@ class GuidePage extends React.Component {
         super();
 
         this.state = {
-            steps: null
+            guide: null
         };
     }
 
     componentDidMount() {
-        this.getStep(0);
+        this.getGuide();
     }
 
-    getStep(stepNum) {
-        Superagent.get(api("https://api.github.com/repos/lgkonline/react-guide/git/trees/" + stepNum)).end((err, res) => {
+    componentDidUpdate(prevProps) {
+        if (this.props.match.params.user != prevProps.match.params.user ||
+            this.props.match.params.repo != prevProps.match.params.repo
+        ) {
+            this.getGuide();
+        }
+    }
+
+    getGuide() {
+        Superagent.get(api("https://api.github.com/repos/" + this.props.match.params.user + "/" + this.props.match.params.repo + "/git/trees/master")).end((err, res) => {
+            handleError(err, res);
+
+            this.state.guide = {
+                steps: []
+            };
+
+            res.body.tree.map(node => {
+                if (node.path == "README.md") {
+                    Superagent.get(api(node.url)).end((err1, res1) => {
+                        this.state.guide.readMe = atob(res1.body.content);
+
+                        this.setState({ guide: this.state.guide });
+                    });
+                }
+                else if (node.type == "tree") {
+                    this.getStep(node);
+                }
+            });
+
+            this.setState({ guide: this.state.guide });
+        });
+    }
+
+    getStep(node0) {
+        Superagent.get(api(node0.url)).end((err, res) => {
             if (err && res.statusCode == "404") {
                 throw err;
             }
@@ -29,9 +63,8 @@ class GuidePage extends React.Component {
                 handleError(err, res);
             }
 
-            console.log(res.body);
-
             let step = {
+                folders: [],
                 files: []
             };
 
@@ -40,35 +73,41 @@ class GuidePage extends React.Component {
                     Superagent.get(api(node.url)).end((err2, res2) => {
                         step.readMe = atob(res2.body.content);
 
-                        this.setState({ steps: this.state.steps });
+                        this.state.guide.steps[node0.path * 1] = step;
+
+                        this.setState({ guide: this.state.guide });
                     });
                 }
-                else {
+                else if (node.type == "blob") {
                     step.files.push(node);
+                }
+                else if (node.type == "tree") {
+                    step.folders.push(node);
                 }
             });
 
-            if (!this.state.steps) this.state.steps = [];
-            this.state.steps.push(step);
+            this.state.guide.steps[node0.path * 1] = step;
 
-            this.setState({ steps: this.state.steps });
-
-            this.getStep(stepNum + 1);
+            this.setState({ guide: this.state.guide });
         });
     }
 
     render() {
         return (
-            <Page area="Guides" title="React project" containerClass="container-fluid">
-                {this.state.steps ?
-                    <div className="fade-in">
-                        {this.state.steps.map((step, i) =>
-                            step.readMe ?
-                                <GuideStep key={i} step={step} />
+            <Page area="Guides" containerClass="container-fluid">
+                {this.state.guide && this.state.guide.readMe ?
+                    [
+                        <ReactMarkdown key={0} source={this.state.guide.readMe} className="mt-4" />,
+                        <div key={1}>
+                            {this.state.guide.steps ?
+                                this.state.guide.steps.map((step, i) =>
+                                    <GuideStep key={i} step={step} />
+                                )
                                 :
-                                <Busy key={i} />
-                        )}
-                    </div>
+                                <Busy />
+                            }
+                        </div>
+                    ]
                     :
                     <Busy />
                 }

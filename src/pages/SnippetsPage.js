@@ -2,9 +2,8 @@ import React from "react";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import Superagent from "superagent";
-import SyntaxHighlighter from "react-syntax-highlighter";
-import { githubGist } from "react-syntax-highlighter/dist/styles";
 
+import SyntaxHighlighter from "../components/SyntaxHighlighter";
 import Page from "../components/Page";
 import Busy from "../components/Busy";
 
@@ -57,19 +56,6 @@ class SnippetsPage extends React.Component {
         });
     }
 
-    selectText(areaId) {
-        if (document.selection) {
-            var range = document.body.createTextRange();
-            range.moveToElementText(document.getElementById(areaId));
-            range.select();
-        } else if (window.getSelection) {
-            var range = document.createRange();
-            range.selectNode(document.getElementById(areaId));
-            window.getSelection().removeAllRanges();
-            window.getSelection().addRange(range);
-        }
-    }
-
     render() {
         return (
             <Page area="Snippets" title="Snippets">
@@ -109,14 +95,8 @@ class SnippetsPage extends React.Component {
 
                                                                 {file.blob ?
                                                                     <SyntaxHighlighter
-                                                                        id={"syntax-" + h + "-" + i + "-" + j}
-                                                                        onDoubleClick={() => {
-                                                                            this.selectText("syntax-" + h + "-" + i + "-" + j);
-                                                                        }}
-
                                                                         // language based on the file extension
                                                                         language={file.path.split(".")[file.path.split(".") - 1]}
-                                                                        style={githubGist}
                                                                     >
                                                                         {atob(file.blob.content)}
                                                                     </SyntaxHighlighter>

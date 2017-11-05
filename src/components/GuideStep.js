@@ -2,9 +2,9 @@ import React from "react";
 import PropTypes from "prop-types";
 import Superagent from "superagent";
 import ReactMarkdown from "react-markdown";
-import SyntaxHighlighter from "react-syntax-highlighter";
-import { githubGist } from "react-syntax-highlighter/dist/styles";
 
+import SyntaxHighlighter from "./SyntaxHighlighter";
+import Explorer from "./Explorer";
 import Busy from "./Busy";
 
 class GuideStep extends React.Component {
@@ -22,43 +22,29 @@ class GuideStep extends React.Component {
                 <div className="card-body">
                     <div className="row">
                         <div className="col-md-4">
-                            <ReactMarkdown source={this.props.step.readMe} />
+                            {this.props.step.readMe ?
+                                <ReactMarkdown source={this.props.step.readMe} />
+                                :
+                                <Busy />
+                            }
                         </div>
 
                         <div className="col-md-8">
                             <div className="row">
                                 <div className="col-md-5">
-                                    <div className="list-group">
-                                        {this.props.step.files.map((file, j) =>
-                                            <a
-                                                key={j}
-                                                href="javascript:void(0)"
-                                                className={"list-group-item list-group-item-action " + (this.state.selectedFile == file ? "bg-guides text-white" : "")}
-                                                onClick={() => {
-                                                    if (file.content) {
-                                                        this.setState({ selectedFile: file });
-                                                    }
-                                                    else {
-                                                        Superagent.get(file.url).end((err, res) => {
-                                                            if (err) throw err;
-
-                                                            file.content = atob(res.body.content);
-
-                                                            this.setState({ selectedFile: file });
-                                                        });
-                                                    }
-                                                }}
-                                            >
-                                                {file.path}
-                                            </a>
-                                        )}
-                                    </div>
+                                    <Explorer
+                                        node={this.props.step}
+                                        onSelectFile={file => {
+                                            this.setState({ selectedFile: file });
+                                        }}
+                                        isSelectedFile={file => this.state.selectedFile == file}
+                                    />
                                 </div>
 
                                 <div className="col-md-7">
                                     {this.state.selectedFile ?
                                         this.state.selectedFile.content &&
-                                        <SyntaxHighlighter style={githubGist}>
+                                        <SyntaxHighlighter>
                                             {this.state.selectedFile.content}
                                         </SyntaxHighlighter>
                                         :

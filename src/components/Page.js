@@ -65,7 +65,7 @@ class Page extends React.Component {
                     {this.props.children}
                 </div>
             </main>,
-            <footer key={1} className="py-3">
+            <footer key={1} className="py-3 mt-5 text-center">
                 <div className="container">
                     Made with <span className="icon-heart" /> in Germany by LGK.
                     Checkout my <a href="http://lgk.io">website</a> or follow me on <a href="https://twitter.com/lgkonline">Twitter</a>.<br />
