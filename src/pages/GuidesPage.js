@@ -21,13 +21,13 @@ class GuidesPage extends React.Component {
     }
 
     getGuides() {
-        Superagent.get("https://api.github.com/repos/lgkonline/skill-guide/contents/guides").end((err0, res0) => {
+        Superagent.get(api("https://api.github.com/repos/lgkonline/skill-guide/contents/guides")).end((err0, res0) => {
             this.setState({ guides: res0.body }, () => {
                 this.state.guides.map(guide => {
-                    Superagent.get(guide.git_url).end((err1, res1) => {
+                    Superagent.get(api(guide.git_url)).end((err1, res1) => {
                         res1.body.tree.map(node => {
                             if (node.path == "config.json") {
-                                Superagent.get(node.url).end((err2, res2) => {
+                                Superagent.get(api(node.url)).end((err2, res2) => {
                                     guide.config = JSON.parse(atob(res2.body.content));
 
                                     this.setState({ guides: this.state.guides });

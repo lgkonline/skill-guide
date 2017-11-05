@@ -22,7 +22,7 @@ class NewGuidePage extends React.Component {
     }
 
     getStep(stepNum) {
-        Superagent.get("https://api.github.com/repos/lgkonline/react-guide/git/trees/" + stepNum).end((err, res) => {
+        Superagent.get(api("https://api.github.com/repos/lgkonline/react-guide/git/trees/" + stepNum)).end((err, res) => {
             if (err && res.statusCode == "404") {
                 throw err;
             }
@@ -38,7 +38,7 @@ class NewGuidePage extends React.Component {
 
             res.body.tree.map(node => {
                 if (node.path == "README.md") {
-                    Superagent.get(node.url).end((err2, res2) => {
+                    Superagent.get(api(node.url)).end((err2, res2) => {
                         step.readMe = atob(res2.body.content);
 
                         this.setState({ steps: this.state.steps });

@@ -23,25 +23,25 @@ class SnippetsPage extends React.Component {
 
     getSnippets() {
         // First get the correct git url
-        Superagent.get("https://api.github.com/repos/lgkonline/skill-guide/contents/snippets").end((err0, res0) => {
+        Superagent.get(api("https://api.github.com/repos/lgkonline/skill-guide/contents/snippets")).end((err0, res0) => {
             if (err0) throw err0;
 
             // Set state
             this.setState({ data: res0.body }, () => {
                 this.state.data.map(genre => {
-                    Superagent.get(genre.git_url).end((err1, res1) => {
+                    Superagent.get(api(genre.git_url)).end((err1, res1) => {
                         if (err1) throw err1;
 
                         genre.tree = res1.body.tree;
 
                         genre.tree.map(snippet => {
-                            Superagent.get(snippet.url).end((err2, res2) => {
+                            Superagent.get(api(snippet.url)).end((err2, res2) => {
                                 if (err2) throw err2;
 
                                 snippet.tree = res2.body.tree;
 
                                 snippet.tree.map(file => {
-                                    Superagent.get(file.url).end((err3, res3) => {
+                                    Superagent.get(api(file.url)).end((err3, res3) => {
                                         if (err3) throw err3;
 
                                         file.blob = res3.body;

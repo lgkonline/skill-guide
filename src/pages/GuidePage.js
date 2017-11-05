@@ -30,7 +30,7 @@ class GuidePage extends React.Component {
     }
 
     getGuide() {
-        Superagent.get("https://api.github.com/repos/lgkonline/skill-guide/contents/guides/" + this.state.name).end((err0, res0) => {
+        Superagent.get(api("https://api.github.com/repos/lgkonline/skill-guide/contents/guides/" + this.state.name)).end((err0, res0) => {
             if (err0) {
                 this.setState({ error: res0.body });
 
@@ -39,10 +39,10 @@ class GuidePage extends React.Component {
 
             this.setState({ guide: res0.body }, () => {
                 this.state.guide.map(step => {
-                    Superagent.get(step.git_url).end((err1, res1) => {
+                    Superagent.get(api(step.git_url)).end((err1, res1) => {
                         res1.body.tree && res1.body.tree.map(file => {
                             if (file.path == "README.md") {
-                                Superagent.get(file.url).end((err2, res2) => {
+                                Superagent.get(api(file.url)).end((err2, res2) => {
                                     step.readMe = atob(res2.body.content);
 
                                     this.setState({ guide: this.state.guide });
