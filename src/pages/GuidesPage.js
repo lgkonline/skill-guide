@@ -23,6 +23,10 @@ class GuidesPage extends React.Component {
                 {
                     user: "lgkonline",
                     repo: "react-guide"
+                },
+                {
+                    user: "lgkonline",
+                    repo: "skill-guide-guide"
                 }
             ]
         };

@@ -21,6 +21,15 @@ class Explorer extends React.Component {
         this.setState({ node: this.props.node });
     }
 
+    formatPath(path) {
+        if (path == "~README.md") {
+            return path.replace("~", "");
+        }
+        else {
+            return path;
+        }
+    }
+
     render() {
         return (
             <div className={"list-group " + this.props.className}>
@@ -94,7 +103,7 @@ class Explorer extends React.Component {
                             }
                         }}
                     >
-                        <span className="icon-file-text2" /> {file.path}
+                        <span className="icon-file-text2" /> {this.formatPath(file.path)}
                     </a>
                 )}
             </div>
