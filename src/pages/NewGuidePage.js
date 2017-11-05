@@ -2,11 +2,11 @@ import React from "react";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import Superagent from "superagent";
-import ReactMarkdown from "react-markdown";
 
 import global from "../global";
 import Page from "../components/Page";
 import Busy from "../components/Busy";
+import GuideStep from "../components/GuideStep";
 
 class NewGuidePage extends React.Component {
     constructor() {
@@ -23,7 +23,12 @@ class NewGuidePage extends React.Component {
 
     getStep(stepNum) {
         Superagent.get("https://api.github.com/repos/lgkonline/react-guide/git/trees/" + stepNum).end((err, res) => {
-            if (err) throw err;
+            if (err && res.statusCode == "404") {
+                throw err;
+            }
+            else {
+                global.handleError(err, res);
+            }
 
             console.log(res.body);
 
@@ -55,16 +60,12 @@ class NewGuidePage extends React.Component {
 
     render() {
         return (
-            <Page area="Guides" title="React project">
+            <Page area="Guides" title="React project" containerClass="container-fluid">
                 {this.state.steps ?
                     <div className="fade-in">
                         {this.state.steps.map((step, i) =>
                             step.readMe ?
-                                <div key={i} className="card mb-3">
-                                    <div className="card-body">
-                                        <ReactMarkdown source={step.readMe} />
-                                    </div>
-                                </div>
+                                <GuideStep key={i} step={step} />
                                 :
                                 <Busy key={i} />
                         )}

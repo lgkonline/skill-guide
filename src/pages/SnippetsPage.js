@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import Superagent from "superagent";
 import SyntaxHighlighter from "react-syntax-highlighter";
-import { github, githubGist } from "react-syntax-highlighter/dist/styles";
+import { githubGist } from "react-syntax-highlighter/dist/styles";
 
 import Page from "../components/Page";
 import Busy from "../components/Busy";

@@ -5,7 +5,8 @@ import PropTypes from "prop-types";
 class Page extends React.Component {
     static get defaultProps() {
         return {
-            title: ""
+            title: "",
+            containerClass: "container"
         };
     }
 
@@ -56,7 +57,7 @@ class Page extends React.Component {
                         </ul>
                     </div>
                 </nav>
-                <div className="fade-in container">
+                <div className={"fade-in " + this.props.containerClass}>
                     <h1 className="display-1 my-4">{this.props.title}</h1>
 
                     {this.props.children}
@@ -76,7 +77,8 @@ class Page extends React.Component {
 Page.propTypes = {
     children: PropTypes.any,
     area: PropTypes.string,
-    title: PropTypes.string
+    title: PropTypes.string,
+    containerClass: PropTypes.string
 };
 
 export default Page;
