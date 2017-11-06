@@ -93,12 +93,17 @@ class GuideStep extends React.Component {
                             <div className="card-body">
                                 <h2 className="pb-2">Live view</h2>
 
-                                <iframe
-                                    src={"https://" + this.props.user + ".github.io/" +
-                                        this.props.repo + "/" + this.props.stepIndex + "/" + this.props.guide.config.liveView}
-                                    className="embed-responsive border-0 bg-white"
-                                    style={{ height: "30vh" }}
-                                />
+                                <div className="card text-dark">
+                                    <div className="card-body">
+                                        <h3 className="text-center">{this.props.guide.config.liveView}</h3>
+                                        <iframe
+                                            src={"https://" + this.props.user + ".github.io/" +
+                                                this.props.repo + "/" + this.props.stepIndex + "/" + this.props.guide.config.liveView}
+                                            className="embed-responsive border-0 bg-white"
+                                            style={{ height: "30vh" }}
+                                        />
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     }
