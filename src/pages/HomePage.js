@@ -20,14 +20,21 @@ class Homepage extends React.Component {
                 {
                     user: "lgkonline",
                     repo: "skill-guide-guide"
+                },
+                {
+                    user: "lgkonline",
+                    repo: "react-router-guide"
                 }
             ]
         };
     }
 
     componentDidMount() {
-        this.state.guides.map(guide => {
-            this.getGuide(guide);
+        this.state.guides.reverse();
+        this.setState({ guides: this.state.guides }, () => {
+            this.state.guides.map(guide => {
+                this.getGuide(guide);
+            });
         });
     }
 
