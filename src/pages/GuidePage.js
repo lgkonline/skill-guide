@@ -14,12 +14,14 @@ class GuidePage extends React.Component {
 
         this.state = {
             guide: null,
-            activeStep: null
+            activeStep: null,
+            user: null
         };
     }
 
     componentDidMount() {
         this.getGuide();
+        this.getUser();
     }
 
     componentDidUpdate(prevProps) {
@@ -27,6 +29,7 @@ class GuidePage extends React.Component {
             this.props.match.params.repo != prevProps.match.params.repo
         ) {
             this.getGuide();
+            this.getUser();
         }
 
         if (this.props.match.params.step != prevProps.match.params.step) {
@@ -102,6 +105,14 @@ class GuidePage extends React.Component {
         this.setState({ activeStep: this.state.guide.steps[activeStepIndex] });
     }
 
+    getUser() {
+        Superagent.get(api("https://api.github.com/users/" + this.props.match.params.user)).end((err, res) => {
+            handleError(err, res);
+
+            this.setState({ user: res.body });
+        });
+    }
+
     render() {
         return (
             <Page area="Guides" containerClass="container-fluid">
@@ -125,6 +136,25 @@ class GuidePage extends React.Component {
                             }
                         </div>
                     ]
+                    :
+                    <Busy />
+                }
+
+                {this.state.user ?
+                    <div className="text-center mt-5">
+                        <span className="lead">A guide by&nbsp;</span>
+
+                        <img
+                            src={this.state.user.avatar_url}
+                            alt={this.state.user.login}
+                            className="rounded-circle"
+                            style={{ width: "64px", height: "64px" }}
+                        />
+
+                        <h2>{this.state.user.name}</h2>
+                        <p>{this.state.user.bio}</p>
+                        <p><a href={this.state.user.html_url}>GitHub</a></p>
+                    </div>
                     :
                     <Busy />
                 }

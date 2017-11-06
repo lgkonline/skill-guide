@@ -42,6 +42,8 @@ class Homepage extends React.Component {
         Superagent.get(api("https://api.github.com/repos/" + guide.user + "/" + guide.repo + "/git/trees/master")).end((err, res) => {
             handleError(err, res);
 
+            console.log(res.body);
+
             res.body.tree.map(node => {
                 if (node.path == "README.md") {
                     Superagent.get(api(node.url)).end((err1, res1) => {
