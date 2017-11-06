@@ -42,12 +42,10 @@ class Homepage extends React.Component {
         Superagent.get(api("https://api.github.com/repos/" + guide.user + "/" + guide.repo + "/git/trees/master")).end((err, res) => {
             handleError(err, res);
 
-            console.log(res.body);
-
             res.body.tree.map(node => {
-                if (node.path == "README.md") {
+                if (node.path == "skill-guide.json") {
                     Superagent.get(api(node.url)).end((err1, res1) => {
-                        guide.readMe = atob(res1.body.content);
+                        guide.config = JSON.parse(atob(res1.body.content));
 
                         this.setState({ guides: this.state.guides });
                     });
@@ -69,9 +67,10 @@ class Homepage extends React.Component {
 
                 <div className="list-group">
                     {this.state.guides.map((guide, i) =>
-                        guide.readMe ?
+                        guide.config ?
                             <Link key={i} to={"/guide/" + guide.user + "/" + guide.repo} className="list-group-item list-group-item-action">
-                                <ReactMarkdown source={guide.readMe} />
+                                <h1>{guide.config.title}</h1>
+                                <p>{guide.config.description}</p>
                             </Link>
                             :
                             <Busy key={i} />

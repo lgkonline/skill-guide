@@ -42,7 +42,8 @@ class Page extends React.Component {
                     Made with <span className="icon-heart" /> in Germany by LGK.
                     Checkout my <a href="http://lgk.io">website</a> or follow me on <a href="https://twitter.com/lgkonline">Twitter</a>.<br />
                     The font HK Grotesk by Hanken Design Co is <a href="https://www.fontsquirrel.com/license/hk-grotesk">SIL licensed</a>.<br />
-                    The code is <a href="https://github.com/lgkonline/skill-guide/blob/master/LICENSE">MIT licensed</a>.
+                    The code is <a href="https://github.com/lgkonline/skill-guide/blob/master/LICENSE">MIT licensed</a>.<br />
+                    <a href="https://github.com/lgkonline">GitHub</a>
                 </div>
             </footer>
         ];

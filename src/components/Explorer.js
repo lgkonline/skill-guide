@@ -23,12 +23,7 @@ class Explorer extends React.Component {
     }
 
     formatPath(path) {
-        if (path == "~README.md") {
-            return path.replace("~", "");
-        }
-        else {
-            return path;
-        }
+        return path.replace("~", "");
     }
 
     render() {

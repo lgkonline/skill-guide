@@ -18,16 +18,18 @@ class GuideStep extends React.Component {
     }
 
     render() {
+        const currentRoute = "/guide/" + this.props.user + "/" + this.props.repo;
+
         return (
             <div className="card border-primary mb-3">
                 <ul className="pagination justify-content-center">
-                    {this.props.steps.map((step, i) =>
+                    {this.props.guide.steps.map((step, i) =>
                         <li
                             key={i}
                             className={"page-item " + (step == this.props.step ? "active" : "")}
                         >
                             <Link
-                                to={this.props.currentRoute + "/" + (i + 1)}
+                                to={currentRoute + "/" + (i + 1)}
                                 className="page-link"
                                 style={{ borderTopLeftRadius: "0", borderTopRightRadius: "0" }}
                             >
@@ -46,9 +48,9 @@ class GuideStep extends React.Component {
                                 <Busy />
                             }
 
-                            {this.props.stepIndex != (this.props.steps.length - 1) &&
+                            {this.props.stepIndex != (this.props.guide.steps.length - 1) &&
                                 <Link
-                                    to={this.props.currentRoute + "/" + (this.props.stepIndex + 2)}
+                                    to={currentRoute + "/" + (this.props.stepIndex + 2)}
                                     className="btn btn-outline-primary mt-4"
                                 >
                                     Next
@@ -85,6 +87,21 @@ class GuideStep extends React.Component {
                             </div>
                         </div>
                     </div>
+
+                    {this.props.guide.config && this.props.guide.config.liveView &&
+                        <div className="card bg-primary text-white mt-4">
+                            <div className="card-body">
+                                <h2 className="pb-2">Live view</h2>
+
+                                <iframe
+                                    src={"https://" + this.props.user + ".github.io/" +
+                                        this.props.repo + "/" + this.props.stepIndex + "/" + this.props.guide.config.liveView}
+                                    className="embed-responsive border-0 bg-white"
+                                    style={{ height: "30vh" }}
+                                />
+                            </div>
+                        </div>
+                    }
                 </div>
             </div>
         );
@@ -94,8 +111,9 @@ class GuideStep extends React.Component {
 GuideStep.propTypes = {
     stepIndex: PropTypes.number,
     step: PropTypes.object.isRequired,
-    steps: PropTypes.array,
-    currentRoute: PropTypes.string
+    guide: PropTypes.object,
+    user: PropTypes.string,
+    repo: PropTypes.string
 };
 
 export default GuideStep;

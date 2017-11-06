@@ -42,13 +42,22 @@ class GuidePage extends React.Component {
             handleError(err, res);
 
             this.state.guide = {
-                steps: []
+                steps: [],
+                config: null,
+                gitContent: res.body
             };
 
             res.body.tree.map(node => {
                 if (node.path == "README.md") {
                     Superagent.get(api(node.url)).end((err1, res1) => {
                         this.state.guide.readMe = atob(res1.body.content);
+
+                        this.setState({ guide: this.state.guide });
+                    });
+                }
+                else if (node.path == "skill-guide.json") {
+                    Superagent.get(api(node.url)).end((err2, res2) => {
+                        this.state.guide.config = JSON.parse(atob(res2.body.content));
 
                         this.setState({ guide: this.state.guide });
                     });
@@ -127,7 +136,9 @@ class GuidePage extends React.Component {
                                         key={i}
                                         stepIndex={i}
                                         step={step}
-                                        steps={this.state.guide.steps}
+                                        guide={this.state.guide}
+                                        user={this.props.match.params.user}
+                                        repo={this.props.match.params.repo}
                                         currentRoute={"/guide/" + this.props.match.params.user + "/" + this.props.match.params.repo}
                                     />
                                 )
