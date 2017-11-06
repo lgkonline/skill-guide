@@ -6,6 +6,7 @@ import App from "./components/App";
 require("./main.scss");
 
 window.api = (url) => "https://lgk.io/github-api/?url=" + encodeURIComponent(url);
+window.routeHistory;
 window.handleError = (err, res) => {
     if (err) {
         console.error(res);

@@ -46,3 +46,12 @@ $font-family-sans-serif: "HK Grotesk", -apple-system, BlinkMacSystemFont, "Segoe
         opacity: 0;
     }
 }
+
+.page-title {
+    @extend .display-3;
+    @extend .my-4;
+}
+
+.guide h1:first-child {
+    @extend .page-title;
+}

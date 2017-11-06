@@ -77,7 +77,7 @@ class SnippetsPage extends React.Component {
                     {this.state.data ?
                         this.state.data.map((genre, h) =>
                             <div key={h} className="col-md-4 py-2">
-                                <h1 className="display-3 mb-2">{genre.name}</h1>
+                                <h1 className="display-4 my-2">{genre.name}</h1>
 
                                 {genre.tree ?
                                     genre.tree.map((snippet, i) =>

@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import Superagent from "superagent";
 import ReactMarkdown from "react-markdown";
@@ -19,6 +20,23 @@ class GuideStep extends React.Component {
     render() {
         return (
             <div className="card border-primary mb-3">
+                <ul className="pagination justify-content-center">
+                    {this.props.steps.map((step, i) =>
+                        <li
+                            key={i}
+                            className={"page-item " + (step == this.props.step ? "active" : "")}
+                        >
+                            <Link
+                                to={this.props.currentRoute + "/" + (i + 1)}
+                                className="page-link"
+                                style={{ borderTopLeftRadius: "0", borderTopRightRadius: "0" }}
+                            >
+                                {i + 1}
+                            </Link>
+                        </li>
+                    )}
+                </ul>
+
                 <div className="card-body">
                     <div className="row">
                         <div className="col-md-4">
@@ -26,6 +44,15 @@ class GuideStep extends React.Component {
                                 <ReactMarkdown source={this.props.step.readMe} />
                                 :
                                 <Busy />
+                            }
+
+                            {this.props.stepIndex != (this.props.steps.length - 1) &&
+                                <Link
+                                    to={this.props.currentRoute + "/" + (this.props.stepIndex + 2)}
+                                    className="btn btn-outline-primary mt-4"
+                                >
+                                    Next
+                            </Link>
                             }
                         </div>
 
@@ -48,8 +75,10 @@ class GuideStep extends React.Component {
                                             {this.state.selectedFile.content}
                                         </SyntaxHighlighter>
                                         :
-                                        <div className="text-muted">
-                                            Choose a file from the list to see its content here.
+                                        this.props.step.files && this.props.step.files.length > 0 &&
+                                        <div className="text-muted text-center">
+                                            <span className="icon-info" /><br />
+                                            Choose a file from the list to see its content here
                                         </div>
                                     }
                                 </div>
@@ -63,7 +92,10 @@ class GuideStep extends React.Component {
 }
 
 GuideStep.propTypes = {
-    step: PropTypes.object.isRequired
+    stepIndex: PropTypes.number,
+    step: PropTypes.object.isRequired,
+    steps: PropTypes.array,
+    currentRoute: PropTypes.string
 };
 
 export default GuideStep;

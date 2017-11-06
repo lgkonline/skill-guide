@@ -19,17 +19,6 @@ class Page extends React.Component {
     }
 
     render() {
-        const areas = [
-            {
-                path: "/guides",
-                name: "Guides"
-            },
-            {
-                path: "/snippets",
-                name: "Snippets"
-            }
-        ];
-
         return [
             <main key={0} style={{ flex: "1" }}>
                 <div className="bg-primary py-5">
@@ -39,17 +28,17 @@ class Page extends React.Component {
                                 Skill Guide<br /><span className="icon-lgk-filled" />
                             </Link>
                         </h1>
-                        <div className="badge badge-secondary">Currently still in development</div>
                     </div>
                 </div>
                 <div className={"fade-in " + this.props.containerClass}>
-                    <h1 className="display-2 my-4">{this.props.title}</h1>
+                    <h1 className="page-title">{this.props.title}</h1>
 
                     {this.props.children}
                 </div>
             </main>,
             <footer key={1} className="py-3 mt-5 text-center">
                 <div className="container">
+                    <span className="badge badge-secondary">Currently in development</span><br />
                     Made with <span className="icon-heart" /> in Germany by LGK.
                     Checkout my <a href="http://lgk.io">website</a> or follow me on <a href="https://twitter.com/lgkonline">Twitter</a>.<br />
                     The font HK Grotesk by Hanken Design Co is <a href="https://www.fontsquirrel.com/license/hk-grotesk">SIL licensed</a>.<br />

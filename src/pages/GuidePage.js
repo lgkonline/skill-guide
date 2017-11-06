@@ -13,7 +13,8 @@ class GuidePage extends React.Component {
         super();
 
         this.state = {
-            guide: null
+            guide: null,
+            activeStep: null
         };
     }
 
@@ -26,6 +27,10 @@ class GuidePage extends React.Component {
             this.props.match.params.repo != prevProps.match.params.repo
         ) {
             this.getGuide();
+        }
+
+        if (this.props.match.params.step != prevProps.match.params.step) {
+            this.setActiveStep();
         }
     }
 
@@ -88,8 +93,13 @@ class GuidePage extends React.Component {
 
             this.state.guide.steps[node0.path * 1] = step;
 
-            this.setState({ guide: this.state.guide });
+            this.setState({ guide: this.state.guide }, this.setActiveStep);
         });
+    }
+
+    setActiveStep() {
+        const activeStepIndex = this.props.match.params.step ? ((this.props.match.params.step * 1) - 1) : 0;
+        this.setState({ activeStep: this.state.guide.steps[activeStepIndex] });
     }
 
     render() {
@@ -97,11 +107,18 @@ class GuidePage extends React.Component {
             <Page area="Guides" containerClass="container-fluid">
                 {this.state.guide && this.state.guide.readMe ?
                     [
-                        <ReactMarkdown key={0} source={this.state.guide.readMe} className="mt-4" />,
+                        <ReactMarkdown key={0} source={this.state.guide.readMe} className="guide mt-4" />,
                         <div key={1}>
                             {this.state.guide.steps ?
                                 this.state.guide.steps.map((step, i) =>
-                                    <GuideStep key={i} step={step} />
+                                    step == this.state.activeStep &&
+                                    <GuideStep
+                                        key={i}
+                                        stepIndex={i}
+                                        step={step}
+                                        steps={this.state.guide.steps}
+                                        currentRoute={"/guide/" + this.props.match.params.user + "/" + this.props.match.params.repo}
+                                    />
                                 )
                                 :
                                 <Busy />
