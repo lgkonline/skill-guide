@@ -18,7 +18,7 @@ class GuideStep extends React.Component {
 
     render() {
         return (
-            <div className="card border-guides mb-3">
+            <div className="card border-primary mb-3">
                 <div className="card-body">
                     <div className="row">
                         <div className="col-md-4">

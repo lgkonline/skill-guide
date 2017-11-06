@@ -58,7 +58,7 @@ class SnippetsPage extends React.Component {
 
     render() {
         return (
-            <Page area="Snippets" title="Snippets">
+            <Page area="Snippets" title="Snippets" containerClass="container-fluid">
                 <p className="lead">
                     Hint: Double click on a source code to select it all.
                 </p>
@@ -76,7 +76,7 @@ class SnippetsPage extends React.Component {
                 <div className="row">
                     {this.state.data ?
                         this.state.data.map((genre, h) =>
-                            <div key={h} className="col-md-6 py-2">
+                            <div key={h} className="col-md-4 py-2">
                                 <h1 className="display-3 mb-2">{genre.name}</h1>
 
                                 {genre.tree ?

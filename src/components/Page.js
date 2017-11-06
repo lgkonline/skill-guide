@@ -42,26 +42,9 @@ class Page extends React.Component {
                         <div className="badge badge-secondary">Currently still in development</div>
                     </div>
                 </div>
-                <nav className="bg-light">
-                    <div className="container">
-                        <ul className="nav nav-pivots nav-fill">
-                            {areas.map(area =>
-                                <li key={area.path} className="nav-item">
-                                    <Link
-                                        to={area.path}
-                                        className={"nav-link " + (this.props.area && this.props.area == area.name ? "active" : "")}
-                                    >
-                                        {area.name}
-                                    </Link>
-                                </li>
-                            )}
-                        </ul>
-                    </div>
-                </nav>
-                <div className="fade-in container">
-                    <h1 className="display-1 my-4">{this.props.title}</h1>
-                </div>
                 <div className={"fade-in " + this.props.containerClass}>
+                    <h1 className="display-2 my-4">{this.props.title}</h1>
+
                     {this.props.children}
                 </div>
             </main>,
@@ -69,6 +52,7 @@ class Page extends React.Component {
                 <div className="container">
                     Made with <span className="icon-heart" /> in Germany by LGK.
                     Checkout my <a href="http://lgk.io">website</a> or follow me on <a href="https://twitter.com/lgkonline">Twitter</a>.<br />
+                    The font HK Grotesk by Hanken Design Co is <a href="https://www.fontsquirrel.com/license/hk-grotesk">SIL licensed</a>.<br />
                     The code is <a href="https://github.com/lgkonline/skill-guide/blob/master/LICENSE">MIT licensed</a>.
                 </div>
             </footer>
