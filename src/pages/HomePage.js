@@ -24,6 +24,10 @@ class Homepage extends React.Component {
                 {
                     user: "lgkonline",
                     repo: "react-router-guide"
+                },
+                {
+                    user: "lgkonline",
+                    repo: "react-bootstrap-guide"
                 }
             ]
         };
