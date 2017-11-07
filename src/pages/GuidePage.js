@@ -38,7 +38,7 @@ class GuidePage extends React.Component {
     }
 
     getGuide() {
-        Superagent.get(api("https://api.github.com/repos/" + this.props.match.params.user + "/" + this.props.match.params.repo + "/git/trees/master")).end((err, res) => {
+        Superagent.get(api(`https://api.github.com/repos/${this.props.match.params.user}/${this.props.match.params.repo}/git/trees/master`)).end((err, res) => {
             handleError(err, res);
 
             this.state.guide = {
@@ -139,7 +139,6 @@ class GuidePage extends React.Component {
                                         guide={this.state.guide}
                                         user={this.props.match.params.user}
                                         repo={this.props.match.params.repo}
-                                        currentRoute={"/guide/" + this.props.match.params.user + "/" + this.props.match.params.repo}
                                     />
                                 )
                                 :
