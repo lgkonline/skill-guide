@@ -14,7 +14,7 @@ class App extends React.Component {
         return (
             <Router history={routeHistory}>
                 <div style={{ display: "flex", minHeight: "100vh", flexDirection: "column" }}>
-                    <LgkPillComponent />
+                    <LgkPillComponent black />
 
                     <Route exact path="/" component={HomePage} />
                     <Route path="/guide/:user/:repo/:step?" component={GuidePage} />
