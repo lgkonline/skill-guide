@@ -1,0 +1,124 @@
+.text-center {
+    text-align: center;
+}
+
+.font-normal {
+    font-size: 1rem;
+}
+
+.btn {
+    border: none;
+    cursor: pointer;
+    display: inline-block;
+    text-decoration: none;
+    background-color: var(--primary);
+    color: white !important;
+    padding: .5rem .7rem;
+    margin-bottom: 5px;
+    border-radius: 3px;
+    transition: background-color .2s;
+}
+.btn:hover {
+    background-color: var(--darker-primary);
+}
+.btn:active {
+    background-color: var(--darker-secondary);
+}
+
+.lg {
+    padding: .8rem 1rem;
+}
+
+.container {
+    padding: 0 calc(50% - 38rem);
+    margin: 0 1rem;
+}
+
+.container-fluid {
+    padding: 1rem;
+}
+
+.container::before,
+.container::after,
+.container-fluid::before,
+.container-fluid::after {
+    content: "";
+    display: table;
+}
+
+.hidden-link:not(:hover) {
+    color: inherit;
+    text-decoration: none;
+}
+
+.animation-spin {
+    display: inline-block;
+    animation: spinAnimation 1s infinite linear;
+}
+
+@keyframes spinAnimation {
+    0% {
+        transform: rotate(0deg);
+        color: var(--primary);
+    }
+    100% {
+        transform: rotate(359deg);
+        color: var(--secondary);
+    }
+}
+
+.appear {
+    animation: appear .5s;
+}
+
+@keyframes appear {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.form-group {
+    margin-bottom: 2rem;
+}
+
+.form-control {
+    display: block;
+    width: 100%;
+    border: 1px solid var(--medi-light-grey);
+}
+
+.mt-1,
+.my-1 {
+    margin-top: 50px;
+}
+
+.mb-1,
+.my-1 {
+    margin-bottom: 50px;
+}
+
+.mt-2,
+.my-2 {
+    margin-top: 100px;
+}
+
+.mb-2,
+.my-2 {
+    margin-bottom: 100px;
+}
+
+.mx-auto {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.w-100 {
+    width: 100%;
+}
+
+.d-block {
+    display: block;
+}
