@@ -13,7 +13,8 @@ class SnippetsPage extends React.Component {
 
         this.state = {
             data: null,
-            genres: []
+            genres: [],
+            selectedGenre: null
         };
     }
 
@@ -23,7 +24,7 @@ class SnippetsPage extends React.Component {
 
     getSnippets() {
         // First get the correct git url
-        Superagent.get(api("https://api.github.com/repos/lgkonline/skill-guide/contents/snippetsNew")).end((err0, res0) => {
+        Superagent.get(api("https://api.github.com/repos/lgkonline/skill-guide/contents/snippets")).end((err0, res0) => {
             if (err0) throw err0;
 
             // Set state
@@ -76,17 +77,31 @@ class SnippetsPage extends React.Component {
                     </div>
 
                     <div className="col-md-5">
-                        {this.state.genres.map(genre =>
-                            <button key={genre} className={"btn btn-" + genre}>
-                                {genre}
+                        <div className="btn-group btn-group-lg">
+                            <button
+                                className={"btn btn-light " + (!this.state.selectedGenre ? "active" : "")}
+                                onClick={() => this.setState({ selectedGenre: null })}
+                            >
+                                Show all
                             </button>
-                        )}
+
+                            {this.state.genres.map(genre =>
+                                <button
+                                    key={genre}
+                                    className={"btn btn-light " + (this.state.selectedGenre == genre ? "active " : null)}
+                                    onClick={() => this.setState({ selectedGenre: genre })}
+                                >
+                                    {genre}
+                                </button>
+                            )}
+                        </div>
                     </div>
                 </div>
 
                 <div className="row">
                     {this.state.data ?
                         this.state.data.map((snippet, h) =>
+                            (!this.state.selectedGenre || snippet.genre == this.state.selectedGenre) &&
                             <div key={h} className="col-md-4 py-2">
                                 <div className={`fade-in card bg-snippets bg-${snippet.genre} text-white mb-3`}>
                                     <div className="card-body">
