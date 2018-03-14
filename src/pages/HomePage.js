@@ -65,8 +65,8 @@ class Homepage extends React.Component {
                     Skill Guide should help you. Here you'll find guides for many scenarios.</p>
 
 
-                <Link to="/snippets" className="btn btn-snippets btn-block btn-lg py-2 my-4">
-                    <span className="icon-code" /><br />Snippets
+                <Link to="/snippets" className="h2 btn btn-snippets btn-block btn-lg my-4">
+                    <span className="icon-code" /> Code snippets
                 </Link>
 
                 <div className="list-group">

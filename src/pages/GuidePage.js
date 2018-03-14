@@ -124,7 +124,7 @@ class GuidePage extends React.Component {
 
     render() {
         return (
-            <Page area="Guides" containerClass="container-fluid">
+            <Page back={{ to: "/", label: "All guides" }} area="Guides" containerClass="container-fluid">
                 {this.state.guide && this.state.guide.readMe ?
                     [
                         <ReactMarkdown key={0} source={this.state.guide.readMe} className="guide mt-4" />,

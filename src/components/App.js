@@ -18,7 +18,7 @@ class App extends React.Component {
 
                     <Route exact path="/" component={HomePage} />
                     <Route path="/guide/:user/:repo/:step?" component={GuidePage} />
-                    <Route path="/snippets" component={SnippetsPage} />
+                    <Route path="/snippets/:snippet?" component={SnippetsPage} />
                 </div>
             </Router>
         );

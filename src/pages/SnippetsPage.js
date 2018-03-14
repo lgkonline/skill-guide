@@ -18,6 +18,10 @@ class SnippetsPage extends React.Component {
         };
     }
 
+    componentWillMount() {
+        console.log();
+    }
+
     componentDidMount() {
         this.getSnippets();
     }
@@ -57,55 +61,78 @@ class SnippetsPage extends React.Component {
 
     render() {
         return (
-            <Page area="Snippets" title="Snippets" containerClass="container-fluid">
-                <div className="row">
-                    <div className="col-md-7">
-                        <p className="lead">
-                            Hint: Double click on a source code to select it all.
+            <Page
+                area="Snippets"
+                title={(this.props.match.params.snippet ? "" : "Snippets")}
+                containerClass={"container" + (this.props.match.params.snippet ? "" : "-fluid")}
+                back={{
+                    to: (this.props.match.params.snippet ? "/snippets" : "/"),
+                    label: (this.props.match.params.snippet ? "All snippets" : "Back home")
+                }}
+            >
+                {!this.props.match.params.snippet &&
+                    <div className="row">
+                        <div className="col-md-7">
+                            <p className="lead">
+                                Hint: Double click on a source code to select it all.
                         </p>
 
-                        <p>
-                            You want to add snippets? You can do it on GitHub: <a href="https://github.com/lgkonline/skill-guide">https://github.com/lgkonline/skill-guide</a><br />
-                            Then add your code into the snippets folder and make a pull request.
-                            Make sure to name the file in this format: <code>[genre]-[title].[ext]</code> (e.g. <code>CSS-General Style.css</code>)<br />
-                            Thank you very much! 😁
+                            <p>
+                                You want to add snippets? You can do it on GitHub: <a href="https://github.com/lgkonline/skill-guide">https://github.com/lgkonline/skill-guide</a><br />
+                                Then add your code into the snippets folder and make a pull request.<br />
+                                Make sure to name the file in this format: <code>[genre]-[title].[ext]</code> (e.g. <code>CSS-General Style.css</code>)<br />
+                                Thank you very much! 😁
                         </p>
 
-                        <p>
-                            If you need any help you can <a href="https://github.com/lgkonline/skill-guide/issues">report an issue</a> or just message me directly on Twitter: <a href="https://twitter.com/lgkonline">@lgkonline</a>.
+                            <p>
+                                If you need any help you can <a href="https://github.com/lgkonline/skill-guide/issues">report an issue</a> or just message me directly on Twitter: <a href="https://twitter.com/lgkonline">@lgkonline</a>.
                         </p>
-                    </div>
+                        </div>
 
-                    <div className="col-md-5">
-                        <div className="btn-group btn-group-lg">
-                            <button
-                                className={"btn btn-light " + (!this.state.selectedGenre ? "active" : "")}
-                                onClick={() => this.setState({ selectedGenre: null })}
-                            >
-                                Show all
+                        <div className="col-md-5 text-right">
+                            <div className="btn-group btn-group-lg">
+                                <button
+                                    className={"btn btn-light " + (!this.state.selectedGenre ? "active" : "")}
+                                    onClick={() => this.setState({ selectedGenre: null })}
+                                >
+                                    Show all
                             </button>
 
-                            {this.state.genres.map(genre =>
-                                <button
-                                    key={genre}
-                                    className={"btn btn-light " + (this.state.selectedGenre == genre ? "active " : null)}
-                                    onClick={() => this.setState({ selectedGenre: genre })}
-                                >
-                                    {genre}
-                                </button>
-                            )}
+                                {this.state.genres.map(genre =>
+                                    <button
+                                        key={genre}
+                                        className={"btn btn-light " + (this.state.selectedGenre == genre ? "active " : null)}
+                                        onClick={() => this.setState({ selectedGenre: genre })}
+                                    >
+                                        {genre}
+                                    </button>
+                                )}
+                            </div>
+
+
                         </div>
                     </div>
-                </div>
+                }
 
                 <div className="row">
                     {this.state.data ?
                         this.state.data.map((snippet, h) =>
+                            (!this.props.match.params.snippet || this.props.match.params.snippet == snippet.name) &&
                             (!this.state.selectedGenre || snippet.genre == this.state.selectedGenre) &&
-                            <div key={h} className="col-md-4 py-2">
+                            <div
+                                key={h}
+                                className={"py-2 " + (this.props.match.params.snippet ? "col-md-12" : "col-md-4")}
+                            >
                                 <div className={`fade-in card bg-snippets bg-${snippet.genre} text-white mb-3`}>
                                     <div className="card-body">
                                         <h2 className="pb-2">
+                                            <Link
+                                                to={"/snippets/" + snippet.name}
+                                                className="text-light"
+                                                title="Link to just this snippet"
+                                            >
+                                                <span className="icon-link" />
+                                            </Link>&nbsp;
                                             {snippet.title}
                                         </h2>
 
@@ -128,7 +155,7 @@ class SnippetsPage extends React.Component {
                             </div>
                         )
                         :
-                        <Busy />
+                        <div className="text-center w-100"><Busy /></div>
                     }
                 </div>
             </Page>
