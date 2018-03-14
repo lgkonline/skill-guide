@@ -12,7 +12,8 @@ class SnippetsPage extends React.Component {
         super();
 
         this.state = {
-            data: null
+            data: null,
+            genres: []
         };
     }
 
@@ -22,36 +23,33 @@ class SnippetsPage extends React.Component {
 
     getSnippets() {
         // First get the correct git url
-        Superagent.get(api("https://api.github.com/repos/lgkonline/skill-guide/contents/snippets")).end((err0, res0) => {
+        Superagent.get(api("https://api.github.com/repos/lgkonline/skill-guide/contents/snippetsNew")).end((err0, res0) => {
             if (err0) throw err0;
 
             // Set state
             this.setState({ data: res0.body }, () => {
-                this.state.data.map(genre => {
-                    Superagent.get(api(genre.git_url)).end((err1, res1) => {
-                        if (err1) throw err1;
 
-                        genre.tree = res1.body.tree;
+                this.state.data.map(snippet => {
+                    const nameSplitted = snippet.name.split(/[-.]/);
 
-                        genre.tree.map(snippet => {
-                            Superagent.get(api(snippet.url)).end((err2, res2) => {
-                                if (err2) throw err2;
+                    snippet.genre = nameSplitted[0];
+                    snippet.title = nameSplitted[1];
 
-                                snippet.tree = res2.body.tree;
+                    if (!(this.state.genres.indexOf(snippet.genre) > -1)) {
+                        this.state.genres.push(snippet.genre);
+                        this.setState({ genres: this.state.genres });
+                    }
 
-                                snippet.tree.map(file => {
-                                    Superagent.get(api(file.url)).end((err3, res3) => {
-                                        if (err3) throw err3;
+                    console.log(snippet);
+                    Superagent.get(api(snippet.git_url)).end((err3, res3) => {
+                        if (err3) throw err3;
 
-                                        file.blob = res3.body;
+                        snippet.blob = res3.body;
 
-                                        this.setState({ data: this.state.data });
-                                    });
-                                });
-                            });
-                        });
+                        this.setState({ data: this.state.data });
                     });
                 });
+
             });
         });
     }
@@ -59,62 +57,59 @@ class SnippetsPage extends React.Component {
     render() {
         return (
             <Page area="Snippets" title="Snippets" containerClass="container-fluid">
-                <p className="lead">
-                    Hint: Double click on a source code to select it all.
-                </p>
+                <div className="row">
+                    <div className="col-md-7">
+                        <p className="lead">
+                            Hint: Double click on a source code to select it all.
+                        </p>
 
-                <p>
-                    You want to add snippets? Clone this repository from GitHub: <a href="https://github.com/lgkonline/skill-guide">https://github.com/lgkonline/skill-guide</a><br />
-                    Then add your code into the snippets folder and make a pull request.<br />
-                    Thank you very much! 😁
-                </p>
+                        <p>
+                            You want to add snippets? You can do it on GitHub: <a href="https://github.com/lgkonline/skill-guide">https://github.com/lgkonline/skill-guide</a><br />
+                            Then add your code into the snippets folder and make a pull request.
+                            Make sure to name the file in this format: <code>[genre]-[title].[ext]</code> (e.g. <code>CSS-General Style.css</code>)<br />
+                            Thank you very much! 😁
+                        </p>
 
-                <p>
-                    If you need any help you can <a href="https://github.com/lgkonline/skill-guide/issues">report an issue</a> or just message me directly on Twitter: <a href="https://twitter.com/lgkonline">@lgkonline</a>.
-                </p>
+                        <p>
+                            If you need any help you can <a href="https://github.com/lgkonline/skill-guide/issues">report an issue</a> or just message me directly on Twitter: <a href="https://twitter.com/lgkonline">@lgkonline</a>.
+                        </p>
+                    </div>
+
+                    <div className="col-md-5">
+                        {this.state.genres.map(genre =>
+                            <button key={genre} className={"btn btn-" + genre}>
+                                {genre}
+                            </button>
+                        )}
+                    </div>
+                </div>
 
                 <div className="row">
                     {this.state.data ?
-                        this.state.data.map((genre, h) =>
+                        this.state.data.map((snippet, h) =>
                             <div key={h} className="col-md-4 py-2">
-                                <h1 className="display-4 my-2">{genre.name}</h1>
+                                <div className={`fade-in card bg-snippets bg-${snippet.genre} text-white mb-3`}>
+                                    <div className="card-body">
+                                        <h2 className="pb-2">
+                                            {snippet.title}
+                                        </h2>
 
-                                {genre.tree ?
-                                    genre.tree.map((snippet, i) =>
-                                        <div key={i} className="fade-in card bg-snippets text-white mb-3">
+                                        <div className="fade-in card text-dark">
                                             <div className="card-body">
-                                                <h2 className="pb-2">
-                                                    {snippet.path}
-                                                </h2>
-
-                                                {snippet.tree ?
-                                                    snippet.tree.map((file, j) =>
-                                                        <div key={j} className="fade-in card text-dark">
-                                                            <div className="card-body">
-                                                                <h3 className="text-center">{file.path}</h3>
-
-                                                                {file.blob ?
-                                                                    <SyntaxHighlighter
-                                                                        // language based on the file extension
-                                                                        language={file.path.split(".")[file.path.split(".") - 1]}
-                                                                    >
-                                                                        {atob(file.blob.content)}
-                                                                    </SyntaxHighlighter>
-                                                                    :
-                                                                    <Busy />
-                                                                }
-                                                            </div>
-                                                        </div>
-                                                    )
+                                                {snippet.blob ?
+                                                    <SyntaxHighlighter
+                                                        // language based on the file extension
+                                                        language={snippet.path.split(".")[snippet.path.split(".") - 1]}
+                                                    >
+                                                        {atob(snippet.blob.content)}
+                                                    </SyntaxHighlighter>
                                                     :
                                                     <Busy />
                                                 }
                                             </div>
                                         </div>
-                                    )
-                                    :
-                                    <Busy />
-                                }
+                                    </div>
+                                </div>
                             </div>
                         )
                         :
