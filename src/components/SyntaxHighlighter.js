@@ -1,6 +1,6 @@
 import React from "react";
 import SyntaxHighlighter from "react-syntax-highlighter";
-import { githubGist } from "react-syntax-highlighter/dist/styles";
+import { githubGist } from "react-syntax-highlighter/dist/styles/hljs";
 
 class MyComponent extends React.Component {
     selectText(areaId) {

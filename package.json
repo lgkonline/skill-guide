@@ -1,6 +1,6 @@
 {
     "name": "skill-guide",
-    "version": "1.1.0",
+    "version": "1.1.1",
     "description": "Are you stocking when you want to create a new project? For example a React project? There are many ways to do this. Skill Guide should help you. Here you'll find guides for many scenarios.",
     "main": "index.js",
     "scripts": {
@@ -16,30 +16,33 @@
     "author": "",
     "license": "MIT",
     "dependencies": {
-        "babel-core": "^6.26.0",
-        "babel-loader": "^7.1.2",
-        "babel-preset-env": "^1.6.1",
+        "babel-core": "^6.26.3",
+        "babel-loader": "^7.1.5",
+        "babel-preset-env": "^1.7.0",
         "babel-preset-react": "^6.24.1",
-        "bootstrap": "^4.0.0-beta.2",
-        "css-loader": "^0.28.7",
-        "extract-text-webpack-plugin": "^3.0.2",
-        "file-loader": "^1.1.5",
-        "lgk": "^1.0.9",
-        "node-sass": "^4.6.0",
-        "prop-types": "^15.6.0",
-        "react": "^16.0.0",
-        "react-dom": "^16.0.0",
-        "react-markdown": "^2.5.0",
-        "react-router": "^4.2.0",
-        "react-router-dom": "^4.2.2",
-        "react-syntax-highlighter": "^5.8.0",
-        "sass-loader": "^6.0.6",
-        "style-loader": "^0.19.0",
-        "superagent": "^3.8.0",
-        "webpack": "^3.8.1"
+        "bootstrap": "^4.2.1",
+        "css-loader": "^2.1.0",
+        "extract-text-webpack-plugin": "^4.0.0-beta.0",
+        "file-loader": "^3.0.1",
+        "lgk": "^1.2.3",
+        "node-sass": "^4.11.0",
+        "prop-types": "^15.6.2",
+        "react": "^16.8.1",
+        "react-dom": "^16.8.1",
+        "react-markdown": "^4.0.6",
+        "react-router": "^4.3.1",
+        "react-router-dom": "^4.3.1",
+        "react-syntax-highlighter": "^10.1.2",
+        "sass-loader": "^7.1.0",
+        "style-loader": "^0.23.1",
+        "superagent": "^4.1.0",
+        "webpack": "^4.29.3"
     },
     "bugs": {
         "url": "https://github.com/lgkonline/skill-guide/issues"
     },
-    "homepage": "https://github.com/lgkonline/skill-guide#readme"
+    "homepage": "https://github.com/lgkonline/skill-guide#readme",
+    "devDependencies": {
+        "webpack-cli": "^3.2.3"
+    }
 }
